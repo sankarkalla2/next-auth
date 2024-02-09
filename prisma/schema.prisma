@@ -54,3 +54,5 @@ model VerificationToken {
 
   @@unique([email, token])
 }
+
+

@@ -45,12 +45,31 @@ export const {
     signIn: "/auth/login",
     error: "/auth/error",
   },
+  events: {
+    async linkAccount({ user }) {
+      await db.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          emailVerified: new Date(),
+        },
+      });
+    },
+  },
   callbacks: {
     async signIn({ user, account }) {
       // Allow OAuth without email verification
-      const existingUser = await getUserById(user.id!);
-      if (!existingUser || !existingUser.emailVerified) return false;
 
+      if (account?.provider !== "credentials") return true;
+      const existingUser = await getUserById(user.id!);
+
+      //prevent user signin without email verification
+      if (!existingUser?.emailVerified) return false;
+
+      //todo 2fa verification
+
+      // return true;
       return true;
     },
     async session({ session, token }: TokenAndSession) {
