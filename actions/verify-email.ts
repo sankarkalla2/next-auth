@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { getTokenByToken } from "@/data/emai-verification";
 import db from "@/lib/db";
@@ -18,7 +18,7 @@ export const newVerification = async (token: string) => {
 
   const existingUser = await db.user.findUnique({
     where: {
-      id: verificationToken.id,
+      email: verificationToken.email,
     },
   });
   if (!existingUser)
@@ -38,7 +38,7 @@ export const newVerification = async (token: string) => {
 
   await db.verificationToken.delete({
     where: {
-      id: verificationToken.token,
+      id: verificationToken.id,
     },
   });
 

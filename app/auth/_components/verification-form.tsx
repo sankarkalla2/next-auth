@@ -30,8 +30,10 @@ const NewVerificationForm = () => {
     newVerification(token).then((data) => {
       if (data.Success) {
         setSuccess(success);
+        console.log(success);
       } else {
         if (data.Error) setError(data.Error);
+        console.log(error);
       }
     });
   }, [token, success, error]);

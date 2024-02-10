@@ -31,10 +31,10 @@ const CardWrapper = ({
 }: CardWrapperProps) => {
   return (
     <Card className="w-[400px]">
-      <Header  />
+      <Header />
       <CardContent>{children}</CardContent>
       <CardFooter>
-        <SocialButtons />
+        { !showSocial && <SocialButtons /> }
       </CardFooter>
       <CardFooter>
         <BackButton label={backButtonLabel} href={backButtonHref} />

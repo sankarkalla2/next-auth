@@ -22,6 +22,7 @@ import * as z from "zod";
 import FormError from "./form-error";
 import FormSuceess from "./form-success";
 import { login } from "@/actions/login";
+import Link from "next/link";
 
 const LoginForm = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -85,6 +86,14 @@ const LoginForm = () => {
               </FormItem>
             )}
           />
+          <Button
+            variant="link"
+            className="font-normal h-4 px-0"
+            asChild
+            size="sm"
+          >
+            <Link href="/auth/reset">Foregot password?</Link>
+          </Button>
           <FormError message={error} />
           <FormSuceess message={success} />
           <Button type="submit" className="w-full" disabled={isPending}>
