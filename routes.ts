@@ -10,7 +10,12 @@ export const publicRoutes = ["/", "/auth/new-verificationToken"];
  * These are authentication routes.That only accessble during authencication.
  * @type {string[]}
  */
-export const authRoutes = ["/auth/login", "/auth/register", "/auth/reset"];
+export const authRoutes = [
+  "/auth/login",
+  "/auth/register",
+  "/auth/reset",
+  "/auth/new-password",
+];
 
 /**
  * These routes were accessbile during user authentiaction only

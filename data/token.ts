@@ -1,10 +1,13 @@
 import db from "@/lib/db";
 import { v4 as uuid } from "uuid";
 import { getTokenByEmail } from "./emai-verification";
+import crypto from "crypto";
 import {
   getResetPasswordTokenByEmail,
   getResetPasswordTokenByToken,
 } from "./password-token-reset";
+import { date } from "zod";
+import { getTwoFactorTokenByEmail } from "./two-factor-token";
 
 export const generateResetPasswordToken = async (email: string) => {
   const token = uuid();
@@ -50,3 +53,35 @@ export const generateVefificationToken = async (email: string) => {
   });
   return verificationToken;
 };
+
+export const generateTwoFactorToken = async (email: string) => {
+  const token = crypto.randomInt(100_000, 1_000_000).toString();
+  const expires = new Date(new Date().getTime() + 3600 * 1000);
+
+  const existingToken = await getTwoFactorTokenByEmail(email);
+
+  if (existingToken) {
+    await db.twoFactorToken.delete({
+      where: {
+        id: existingToken.id,
+      },
+    });
+  }
+
+  const twoFactorToken = await db.twoFactorToken.create({
+    data: {
+      email,
+      expires,
+      token,
+    },
+  });
+
+  return twoFactorToken;
+};
+
+// export const generateTwoFactorToken = async (email:string) => {
+//   const token = uuid();
+//   const expires = new Date(new Date().getTime() + 3600 * 1000 * 1000);
+
+//   const
+// }
